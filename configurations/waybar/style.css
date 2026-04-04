@@ -1,38 +1,31 @@
 @import "mocha.css";
 
 * {
-  font-family: FantasqueSansMono Nerd Font;
-  font-size: 17px;
+  font-family: "JetBrainsMono Nerd Font", "Font Awesome 6 Free";
+  font-size: 16px;
   min-height: 0;
+}
+
+#waybar {
+  padding: 0;
+  margin: -10;
 }
 
 #waybar {
   background: transparent;
   color: @text;
-  margin: 5px 5px;
 }
 
 #workspaces {
   border-radius: 1rem;
-  margin: 5px;
   background-color: @surface0;
-  margin-left: 1rem;
+  margin: 0.5rem;
 }
 
-#workspaces button {
-  color: @lavender;
-  border-radius: 1rem;
-  padding: 0.4rem;
-}
-
-#workspaces button.active {
-  color: @sky;
-  border-radius: 1rem;
-}
-
+#workspaces button,
+#workspaces button.active,
 #workspaces button:hover {
-  color: @sapphire;
-  border-radius: 1rem;
+  border-radius: 0.5rem;
 }
 
 #custom-music,
@@ -42,61 +35,41 @@
 #battery,
 #pulseaudio,
 #custom-lock,
+#custom-notifs,
 #custom-power {
   background-color: @surface0;
-  padding: 0.5rem 1rem;
-  margin: 5px 0;
+  padding: 0rem 0.6rem;
+  margin: 0.5rem 0rem;
+  border-radius: 0;
 }
 
-#clock {
-  color: @blue;
-  border-radius: 0px 1rem 1rem 0px;
+#pulseaudio { 
+  border-radius: 0.5rem 0 0 0.5rem;
+  margin-left: 0.5rem;
+  padding-left: 0.5rem;
+}
+
+#custom-power {
+  border-radius: 0 1rem 1rem 0;
   margin-right: 1rem;
-}
-
-#battery {
-  color: @green;
-}
-
-#battery.charging {
-  color: @green;
-}
-
-#battery.warning:not(.charging) {
-  color: @red;
-}
-
-#backlight {
-  color: @yellow;
-}
-
-#backlight, #battery {
-    border-radius: 0;
-}
-
-#pulseaudio {
-  color: @maroon;
-  border-radius: 1rem 0px 0px 1rem;
-  margin-left: 1rem;
+  padding-right: 1rem;
 }
 
 #custom-music {
-  color: @mauve;
   border-radius: 1rem;
+  padding: 0rem 1rem;
 }
 
-#custom-lock {
-    border-radius: 1rem 0px 0px 1rem;
-    color: @lavender;
-}
+#clock                          { color: @blue; }
+#battery                        { color: @green; }
+#battery.charging               { color: @green; }
+#battery.warning:not(.charging) { color: @red; }
+#backlight                      { color: @yellow; }
+#pulseaudio                     { color: @maroon; }
+#custom-music                   { color: @mauve; }
+#custom-lock                    { color: @lavender; }
+#custom-power                   { color: @lavender; }
 
-#custom-power {
-    margin-right: 1rem;
-    border-radius: 0px 1rem 1rem 0px;
-    color: @lavender;
-}
-
-#tray {
-  margin-right: 1rem;
-  border-radius: 1rem;
-}
+#workspaces button              { color: @lavender; }
+#workspaces button.active       { color: @sky; }
+#workspaces button:hover        { color: @sapphire; }

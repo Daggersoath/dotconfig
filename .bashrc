@@ -16,3 +16,5 @@ eval "$(starship init bash)"
 if [[ -n "\$PS1" ]] && [[ -z "\$TMUX" ]] && [[ -n "\$SSH_CONNECTION" ]]; then
   tmux attach-session -t remote || tmux new-session -s remote
 fi
+
+fastfetch
