@@ -1,0 +1,288 @@
+---
+- name: Arch setup
+  hosts: all
+  become: yes
+
+  tasks:
+    
+    - name: Update arch
+      pacman:
+        update_cache: yes
+        upgrade: yes
+    
+    - name: Install packages
+      pacman:
+        update_cache: yes
+        name:
+          - linux
+          - linux-firmware
+          - linux-headers
+          - ttf-fira-code
+          - ttf-jetbrains-mono-nerd
+          - noto-fonts-cjk
+          - otf-font-awesome
+          - base
+          - base-devel
+          - git
+          - alacritty
+          - bluez
+          - bluez-utils
+          - brave-bin
+          - cava
+          - code
+          - discord_arch_electron
+          - dolphin
+          - dunst
+          - efibootmgr
+          - fastfetch
+          - firefox
+          - freerdp
+          - grub
+          - gst-plugin-pipewire
+          - htop
+          - hyprland
+          - hyprpolkitagent
+          - hyprshot
+          - iwd
+          - jetbrains-toolbox
+          - keepass
+          - less
+          - meld
+          - nano
+          - network-manager-applet
+          - ntfs-3g
+          - okular
+          - os-prober
+          - pavucontrol
+          - pipewire-alsa
+          - pipewire-pulse
+          - plex-desktop
+          - polkit-kde-agent
+          - qt5-wayland
+          - qt6-wayland
+          - remmina
+          - rofi
+          - sddm
+          - smartmontools
+          - steam
+          - subversion
+          - thunderbird
+          - tmux
+          - uwsm
+          - vim
+          - waybar
+          - wget
+          - wine-mono
+          - winetricks
+          - wireless_tools
+          - wofi
+          - xdg-desktop-portal-hyprland
+          - xorg-xinit
+
+    - name: disable need for password for pacman to allow yay install
+      lineinfile:
+        path: /etc/sudoers.d/temp_allow_no_pswd_pacman
+        state: present
+        line: "ALL ALL=NOPASSWD: /usr/bin/pacman"
+        validate: /usr/sbin/visudo -cf %s
+        create: yes
+
+    - name: git clone yay-bin repo in to /tmp
+      become: no
+      git:
+        repo: 'https://aur.archlinux.org/yay-bin.git'
+        dest: /tmp/yay-bin
+        clone: yes
+
+    - name: install yay using makepkg
+      become: no
+      expect:
+        chdir: /tmp/yay-bin
+        command: makepkg -si
+        responses:
+          (?i)Proceed with installation: "y"
+
+    - name: re-enable need for password for pacman
+      file:
+        path: /etc/sudoers.d/temp_allow_no_pswd_pacman
+        state: absent
+
+    - name: set yay options to cleanafter package installation
+      become: no
+      shell: yay -Y --answerclean All --removemake --cleanafter --save
+      args:
+        executable: /usr/bin/bash
+
+    # ----------------------------------------------------------------------
+    # ------------------------     CONFIG      -----------------------------
+    # ----------------------------------------------------------------------
+
+    - name: Clone config folder
+      ansible.builtin.git:
+        repo: "git@github.com:Daggersoath/dotconfig.git"
+        dest: '~/dotconfig'
+        version: master
+
+    - name: Remove old config files if they exist
+      file:
+        path: '~/{{ item }}'
+        state: absent
+      with_items:
+        - '.bashrc'
+        - '.tmux'
+        - '.tmux.conf'
+        - '.config/alacritty'
+        - '.config/cava'
+        - '.config/dunst'
+        - '.config/hypr'
+        - '.config/pulse'
+        - '.config/rofi'
+        - '.config/starship.toml'
+        - '.config/waybar'
+        - '.config/wlogout'
+
+    - name: Symlink bashrc
+      file:
+        src: '~/dotconfig/.bashrc'
+        dest: '~/.bashrc'
+        state: link
+
+    - name: Symlink tmux
+      file:
+        src: '~/dotconfig/.tmux'
+        dest: '~/.tmux'
+        state: link
+
+    - name: Symlink tmux conf
+      file:
+        src: '~/dotconfig/.tmux.conf'
+        dest: '~/.tmux.conf'
+        state: link
+
+    - name: Symlink alacritty
+      file:
+        src: '~/dotconfig/configurations/alacritty'
+        dest: '~/alacritty'
+        state: link
+
+    - name: Symlink cava
+      file:
+        src: '~/dotconfig/configurations/cava'
+        dest: '~/.config/cava'
+        state: link
+
+    - name: Symlink dunst
+      file:
+        src: '~/dotconfig/configurations/dunst'
+        dest: '~/.config/dunst'
+        state: link
+
+    - name: Symlink hypr
+      file:
+        src: '~/dotconfig/configurations/hypr'
+        dest: '~/.config/hypr'
+        state: link
+
+    - name: Symlink pulse
+      file:
+        src: '~/dotconfig/configurations/pulse'
+        dest: '~/.config/pulse'
+        state: link
+
+    - name: Symlink rofi
+      file:
+        src: '~/dotconfig/configurations/rofi'
+        dest: '~/.config/rofi'
+        state: link
+
+    - name: Symlink starship
+      file:
+        src: '~/dotconfig/configurations/starship.toml'
+        dest: '~/.config/starship.toml'
+        state: link
+
+    - name: Symlink waybar
+      file:
+        src: '~/dotconfig/configurations/waybar'
+        dest: '~/.config/waybar'
+        state: link
+
+    - name: Symlink wlogout
+      file:
+        src: '~/dotconfig/configurations/wlogout'
+        dest: '~/.config/wlogout'
+        state: link
+
+    - name: Symlink wlogout
+      file:
+        src: '~/dotconfig/configurations/wlogout'
+        dest: '~/.config/wlogout'
+        state: link
+
+    - name: Symlink wlogout
+      file:
+        src: '~/dotconfig/configurations/wlogout'
+        dest: '~/.config/wlogout'
+        state: link
+
+    - name: pacman - enable color
+      lineinfile:
+        path: /etc/pacman.conf
+        regexp: '^#Color$'
+        line: 'Color'
+
+    - name: makepkg - disable compression
+      lineinfile:
+        path: /etc/makepkg.conf
+        regexp: "PKGEXT='.pkg.tar.zst'"
+        line: "PKGEXT='.pkg.tar'"
+
+    - name: makepkg - enable parallel compilation MAKEFLAGS="-j$(nproc)"
+      lineinfile:
+        path: /etc/makepkg.conf
+        regexp: '#MAKEFLAGS="-j2"'
+        line: 'MAKEFLAGS="-j$(nproc)"'
+
+    - name: enable members of wheel group to sudo
+      lineinfile:
+        path: /etc/sudoers.d/98_wheel_allow_sudo
+        state: present
+        line: "%wheel ALL=(ALL:ALL) ALL"
+        validate: /usr/sbin/visudo -cf %s
+        create: yes
+
+    - name: 24h instead of AM/PM system-wide
+      become: yes
+      command: localectl set-locale LC_TIME=C
+
+    # ----------------------------------------------------------------------
+    # ------------------------     CONFIG      -----------------------------
+    # ----------------------------------------------------------------------
+
+
+    - name: Install starship
+      shell: curl -sS https://starship.rs/install.sh | sh
+
+    - name: Install brave
+      shell: curl -fsS https://dl.brave.com/install.sh | sh
+
+    - name: Clone tmux config
+      ansible.builtin.git:
+        repo: "https://github.com/tmux-plugins/tpm"
+        dest: '~/.tmux/plugins/tpm'
+        version: master
+
+    - name: Enable and start hyprpolkitagent
+      ansible.builtin.systemd_service:
+        name: hyprpolkitagent
+        state: started
+        enabled: true
+    
+    - name: Install hyprshot
+      shell: yay -Syu hyprshot
+
+    - name: add the user to the root group, to be able to enter directories
+      user:
+        name: "{{ ansible_user }}"
+        groups: root
+        append: yes
