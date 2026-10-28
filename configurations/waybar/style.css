@@ -1,14 +1,14 @@
 @import "mocha.css";
 
 * {
-  font-family: "JetBrainsMono Nerd Font", "Font Awesome 6 Free";
+  font-family: "FiraCode Nerd Font", "FiraCode NF", "Font Awesome 6 Free", sans-serif;
   font-size: 16px;
   min-height: 0;
 }
 
 #waybar {
   padding: 0;
-  margin: -10;
+  margin: -10px;
 }
 
 #waybar {
@@ -36,7 +36,9 @@
 #pulseaudio,
 #custom-lock,
 #custom-notifs,
-#custom-power {
+#custom-power,
+#network,
+#bluetooth {
   background-color: @surface0;
   padding: 0rem 0.6rem;
   margin: 0.5rem 0rem;
@@ -60,7 +62,7 @@
   padding: 0rem 1rem;
 }
 
-#clock                          { color: @blue; }
+#clock                          { color: @mauve; }
 #battery                        { color: @green; }
 #battery.charging               { color: @green; }
 #battery.warning:not(.charging) { color: @red; }
@@ -69,6 +71,8 @@
 #custom-music                   { color: @mauve; }
 #custom-lock                    { color: @lavender; }
 #custom-power                   { color: @lavender; }
+#network                        { color: @lavender; }
+#bluetooth                      { color: @blue }
 
 #workspaces button              { color: @lavender; }
 #workspaces button.active       { color: @sky; }

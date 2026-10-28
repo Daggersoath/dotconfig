@@ -90,6 +90,7 @@ window {
     padding:          5;
     background-color: @background;
     border:           1;
+    border-radius:    12;
 }
 mainbox {
     padding: 0;
@@ -170,4 +171,9 @@ textbox-prompt-colon {
     expand:     false;
     str:        ":";
     text-color: inherit;
+}
+configuration {
+    modes: [ window, drun, run, ssh, combi, calc ];
+    combi-modi: "drun,calc";
+    combi-hide-mode-prefix: true;
 }
