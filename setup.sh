@@ -1,11 +1,12 @@
+cd ~
 sudo pacman -Syu --needed git base-devel
 git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si
 cd ..
 
-git clone https://github.com/Daggersoath/dotconfig.git
-rm -rf ~/.config/hypr/hyprland.conf
+git clone git@github.com:Daggersoath/dotconfig.git
+rm -rf ~/.config/hypr
 rm ~/.bashrc
 
 ln -s ~/dotconfig/.bashrc .bashrc
@@ -22,7 +23,9 @@ ln -s ~/dotconfig/configurations/starship.toml .config/starship.toml
 ln -s ~/dotconfig/configurations/waybar .config/waybar
 ln -s ~/dotconfig/configurations/wlogout .config/wlogout
 
-sudo pacman -Syu alacritty cava dunst rofi waybar firefox ttf-fira-code fastfetch cifs-utils keepass noto-fonts-cjk ttf-jetbrains-mono-nerd otf-font-awesome pavucontrol less tmux networkmanager-dmenu rofi networkmanager-openvpn 
+sudo pacman -S --needed - < pacman.pkg
+yay -S --needed - < aur.pkg
+#sudo pacman -Syu alacritty cava dunst rofi waybar firefox ttf-fira-code fastfetch cifs-utils keepass noto-fonts-cjk ttf-jetbrains-mono-nerd otf-font-awesome pavucontrol less tmux networkmanager-dmenu rofi networkmanager-openvpn 
 curl -sS https://starship.rs/install.sh | sh
 curl -fsS https://dl.brave.com/install.sh | sh
 
