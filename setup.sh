@@ -43,3 +43,16 @@ yay -Syu plex-desktop discord_arch_electron discord-canary
 
 mkdir -p ~/.config/networkmanager-dmenu
 cp /usr/share/doc/networkmanager-dmenu/config.ini.example ~/.config/networkmanager-dmenu/config.ini
+
+sudo systemctl --user enable --now ssh-agent
+mkdir -p "$HOME/.ssh"
+chmod 700 "$HOME/.ssh"
+
+if [ ! -f "$HOME/.ssh/config" ] || ! grep -q "AddKeysToAgent" "$HOME/.ssh/config"; then
+    cat << 'EOF' >> "$HOME/.ssh/config"
+
+Host *
+    AddKeysToAgent yes
+EOF
+    chmod 600 "$HOME/.ssh/config"
+fi

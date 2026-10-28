@@ -13,6 +13,7 @@ TERM="screen-256color"
 export RDP_CONNECT_CLIENT="sdl"
 export DMENU_BLUETOOTH_LAUNCHER="rofi -dmenu"
 export QT_QPA_PLATFORMTHEME="qt6ct"
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 
 eval "$(starship init bash)"
 
