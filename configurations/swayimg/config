@@ -1,0 +1,5 @@
+swayimg.gallery.on_key("Delete", function()
+    local image = swayimg.gallery.get_image()
+    os.remove(image.path)
+    swayimg.gallery.mark_image()
+end)
