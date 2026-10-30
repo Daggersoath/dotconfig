@@ -46,9 +46,9 @@
 }
 
 #pulseaudio { 
-  border-radius: 0.5rem 0 0 0.5rem;
-  margin-left: 0.5rem;
-  padding-left: 0.5rem;
+  border-radius: 1rem 0 0 1rem;
+  margin-left: 1rem;
+  padding-left: 1rem;
 }
 
 #custom-power {

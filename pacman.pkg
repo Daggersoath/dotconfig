@@ -67,6 +67,7 @@ sof-firmware
 starship
 sudo
 swayimg
+swaylock
 tmux
 ttf-dejavu
 ttf-fira-code
@@ -75,6 +76,7 @@ ttf-jetbrains-mono-nerd
 ttf-liberation
 ttf-nerd-fonts-symbols
 ttf-nerd-fonts-symbols-mono
+unzip
 uwsm
 vim
 vpl-gpu-rt
