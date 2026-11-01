@@ -16,10 +16,17 @@
 
 -- See https://wiki.hypr.land/Configuring/Basics/Monitors/
 hl.monitor({
-    output   = "",
-    mode     = "preferred",
+    output   = "eDP-1",
+    mode     = "1920x120@60",
     position = "auto",
     scale    = "auto",
+})
+hl.monitor({ 
+    output = "DP-1", 
+    mode = "1920x1080@60", 
+    position = "-1080x0", 
+    scale = 1,
+    transform = 1
 })
 
 
@@ -46,6 +53,7 @@ hl.on("hyprland.start", function ()
   -- hl.exec_cmd(terminal)
   -- hl.exec_cmd("nm-applet")
   hl.exec_cmd("waybar")
+  hl.exec_cmd("swaybg -i ~/background -m fill")
 end)
 
 
