@@ -4,6 +4,7 @@ base-devel
 bluez
 bluez-utils
 brave-bin
+brightnessctl
 cava
 darkly
 discord-canary
