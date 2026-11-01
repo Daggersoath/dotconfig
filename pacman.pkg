@@ -37,6 +37,7 @@ linux-firmware
 mkinitcpio
 nano
 net-tools
+network-manager-applet
 networkmanager-dmenu
 networkmanager-openvpn
 noto-fonts
