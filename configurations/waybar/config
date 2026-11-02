@@ -5,12 +5,21 @@
     "modules-center": ["custom/music"],
     "modules-right": ["pulseaudio", "backlight", "battery", "bluetooth", "network", "clock", "custom/notifs", "tray", "custom/lock", "custom/power"],
     "hyprland/workspaces": {
-         "disable-scroll": true,
-         "sort-by-name": true,
-         "format": " {icon} ",
-         "format-icons": {
-             "default": ""
-         }
+        "disable-scroll": true,
+        "format": "{icon} {windows}",
+        "format-window-separator": " ",
+        "window-rewrite-default": "",
+        "window-rewrite": {
+            "class<firefox>": "",
+            "class<google-chrome>": "",
+            "class<brave-browser>": "",
+            "class<tv.plex.Plex>": "",
+            "class<plexamp>": "📻",
+            "class<alacritty>": "",
+            "class<org.kde.kate>": "",
+            "class<spotify>": "",
+            "class<swayimg>": ""
+        }
      },
     "tray": {
         "icon-size": 21,
