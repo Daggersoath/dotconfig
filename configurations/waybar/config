@@ -18,7 +18,8 @@
             "class<alacritty>": "",
             "class<org.kde.kate>": "",
             "class<spotify>": "",
-            "class<swayimg>": ""
+            "class<swayimg>": "",
+            "class<jetbrains-clion>": ""
         }
      },
     "tray": {
