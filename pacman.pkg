@@ -83,9 +83,5 @@ vulkan-radeon
 waybar
 wget
 wireplumber
-wofi
 xdg-desktop-portal-hyprland
 xdg-utils
-xf86-video-amdgpu
-xf86-video-ati
-xf86-video-nouveau
