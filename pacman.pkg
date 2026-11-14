@@ -3,14 +3,9 @@ base
 base-devel
 bluez
 bluez-utils
-brave-bin
 brightnessctl
 cava
 cifs-utils
-darkly
-discord-canary
-discord_arch_electron
-dmenu-bluetooth
 dolphin
 dunst
 efibootmgr
@@ -29,7 +24,6 @@ intel-ucode
 keepass
 kitty
 kvantum
-kvantum-theme-catppuccin-git
 less
 libpulse
 libva-intel-driver
@@ -54,7 +48,6 @@ pipewire
 pipewire-alsa
 pipewire-jack
 pipewire-pulse
-plex-desktop
 polkit-kde-agent
 qt5-wayland
 qt5ct
@@ -88,7 +81,6 @@ vulkan-intel
 vulkan-nouveau
 vulkan-radeon
 waybar
-webcord
 wget
 wireplumber
 wofi
@@ -97,5 +89,3 @@ xdg-utils
 xf86-video-amdgpu
 xf86-video-ati
 xf86-video-nouveau
-yay
-yay-debug
