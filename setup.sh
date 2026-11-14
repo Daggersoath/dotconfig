@@ -1,45 +1,50 @@
-cd ~
-sudo pacman -Syu --needed git base-devel
-git clone https://aur.archlinux.org/yay.git
-cd yay
-makepkg -si
-cd ..
+#!/usr/bin/env bash
+set -euo pipefail
 
-git clone https://github.com/Daggersoath/dotconfig.git
-rm -rf ~/.config/hypr
-rm ~/.bashrc
+DOTFILES_DIR="$HOME/dotconfig"
 
-ln -s ~/dotconfig/.bashrc .bashrc
-ln -s ~/dotconfig/.tmux .tmux
-ln -s ~/dotconfig/.tmux.conf .tmux.conf
+sudo pacman -Syu --needed --noconfirm git base-devel
 
-ln -s ~/dotconfig/configurations/alacritty .config/alacritty
-ln -s ~/dotconfig/configurations/cava .config/cava
-ln -s ~/dotconfig/configurations/dunst .config/dunst
-ln -s ~/dotconfig/configurations/hypr .config/hypr
-ln -s ~/dotconfig/configurations/pulse .config/pulse
-ln -s ~/dotconfig/configurations/rofi .config/rofi
-ln -s ~/dotconfig/configurations/starship.toml .config/starship.toml
-ln -s ~/dotconfig/configurations/waybar .config/waybar
-ln -s ~/dotconfig/configurations/wlogout .config/wlogout
+if ! command -v yay &> /dev/null; then
+    TMP_YAY=$(mktemp -d)
+    git clone https://aur.archlinux.org/yay.git "$TMP_YAY"
+    (cd "$TMP_YAY" && makepkg -si --noconfirm)
+    rm -rf "$TMP_YAY"
+fi
 
-sudo pacman -S --needed - < dotconfig/pacman.pkg
-yay -S --needed - < dotconfig/aur.pkg
+if [ ! -d "$DOTFILES_DIR" ]; then
+    git clone https://github.com/Daggersoath/dotconfig.git "$DOTFILES_DIR"
+else
+    git -C "$DOTFILES_DIR" pull
+fi
 
-curl -sS https://starship.rs/install.sh | sh
-curl -fsS https://dl.brave.com/install.sh | sh
+mkdir -p "$HOME/.config"
 
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+CONFIGS=(alacritty cava dunst hypr pulse rofi starship.toml waybar wlogout)
+for cfg in "${CONFIGS[@]}"; do
+    # Remove existing real directory if present (e.g., default hypr config) before linking
+    if [ -d "$HOME/.config/$cfg" ] && [ ! -L "$HOME/.config/$cfg" ]; then
+        rm -rf "$HOME/.config/$cfg"
+    fi
+    ln -sfn "$DOTFILES_DIR/configurations/$cfg" "$HOME/.config/$cfg"
+done
+
+sudo pacman -S --needed --noconfirm - < "$DOTFILES_DIR/pacman.pkg"
+yay -S --needed --noconfirm - < "$DOTFILES_DIR/aur.pkg"
+
+TPM_DIR="$HOME/.tmux/plugins/tpm"
+if [ ! -d "$TPM_DIR" ]; then
+    git clone https://github.com/tmux-plugins/tpm "$TPM_DIR"
+fi
+
+mkdir -p "$HOME/.config/networkmanager-dmenu"
+if [ ! -f "$HOME/.config/networkmanager-dmenu/config.ini" ] && [ -f /usr/share/doc/networkmanager-dmenu/config.ini.example ]; then
+    cp /usr/share/doc/networkmanager-dmenu/config.ini.example "$HOME/.config/networkmanager-dmenu/config.ini"
+fi
 
 systemctl --user enable --now hyprpolkitagent.service
-systemctl --user start hyprpolkitagent
+systemctl --user enable --now ssh-agent.service
 
-gpg --full-gen-key
-
-mkdir -p ~/.config/networkmanager-dmenu
-cp /usr/share/doc/networkmanager-dmenu/config.ini.example ~/.config/networkmanager-dmenu/config.ini
-
-sudo systemctl --user enable --now ssh-agent
 mkdir -p "$HOME/.ssh"
 chmod 700 "$HOME/.ssh"
 
@@ -50,4 +55,9 @@ Host *
     AddKeysToAgent yes
 EOF
     chmod 600 "$HOME/.ssh/config"
+fi
+
+if ! gpg --list-secret-keys 2>/dev/null | grep -q "sec"; then
+    echo "No GPG key found. Launching interactive GPG key generation..."
+    gpg --full-gen-key
 fi
