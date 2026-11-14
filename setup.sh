@@ -29,6 +29,10 @@ for cfg in "${CONFIGS[@]}"; do
     ln -sfn "$DOTFILES_DIR/configurations/$cfg" "$HOME/.config/$cfg"
 done
 
+if pacman -Qi jack2 &> /dev/null; then
+    sudo pacman -Rdd --noconfirm jack2
+fi
+
 sudo pacman -S --needed --noconfirm - < "$DOTFILES_DIR/pacman.pkg"
 yay -S --needed --noconfirm - < "$DOTFILES_DIR/aur.pkg"
 
