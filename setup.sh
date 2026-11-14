@@ -5,7 +5,7 @@ cd yay
 makepkg -si
 cd ..
 
-git clone git@github.com:Daggersoath/dotconfig.git
+git clone https://github.com/Daggersoath/dotconfig.git
 rm -rf ~/.config/hypr
 rm ~/.bashrc
 
