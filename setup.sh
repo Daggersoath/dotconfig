@@ -20,7 +20,7 @@ fi
 
 mkdir -p "$HOME/.config"
 
-CONFIGS=(alacritty cava dunst hypr pulse rofi starship.toml waybar wlogout)
+CONFIGS=(alacritty cava dunst hypr pulse rofi starship.toml waybar wlogout ../.bashrc)
 for cfg in "${CONFIGS[@]}"; do
     # Remove existing real directory if present (e.g., default hypr config) before linking
     if [ -d "$HOME/.config/$cfg" ] && [ ! -L "$HOME/.config/$cfg" ]; then
