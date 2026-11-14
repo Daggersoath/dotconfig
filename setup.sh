@@ -25,21 +25,16 @@ ln -s ~/dotconfig/configurations/wlogout .config/wlogout
 
 sudo pacman -S --needed - < dotconfig/pacman.pkg
 yay -S --needed - < dotconfig/aur.pkg
-#sudo pacman -Syu alacritty cava dunst rofi waybar firefox ttf-fira-code fastfetch cifs-utils keepass noto-fonts-cjk ttf-jetbrains-mono-nerd otf-font-awesome pavucontrol less tmux networkmanager-dmenu rofi networkmanager-openvpn 
+
 curl -sS https://starship.rs/install.sh | sh
 curl -fsS https://dl.brave.com/install.sh | sh
 
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
-sudo pacman -Syu hyprpolkitagent
 systemctl --user enable --now hyprpolkitagent.service
 systemctl --user start hyprpolkitagent
 
-yay -Syu hyprshot
-
 gpg --full-gen-key
-
-yay -Syu plex-desktop discord_arch_electron discord-canary
 
 mkdir -p ~/.config/networkmanager-dmenu
 cp /usr/share/doc/networkmanager-dmenu/config.ini.example ~/.config/networkmanager-dmenu/config.ini
